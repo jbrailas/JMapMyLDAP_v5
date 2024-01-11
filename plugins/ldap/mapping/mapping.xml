@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="ldap" method="upgrade">
+	<name>plg_ldap_mapping</name>
+	<author>Shaun Maunder</author>
+	<creationDate>August 2011</creationDate>
+	<copyright>Copyright (C) 2013 Shaun Maunder. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>shaun@shmanic.com</authorEmail>
+	<authorUrl>www.shmanic.com</authorUrl>
+	<version>2.0.3.1</version>
+	<buildDate>Wed Feb 25 18:47:50 2015</buildDate>
+	<description>PLG_LDAP_MAPPING_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="mapping">mapping.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_ldap_mapping.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_ldap_mapping.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="onlogin" type="radio" default="1" class="btn-group" description="PLG_LDAP_MAPPING_FIELD_ONLOGIN_DESC" label="PLG_LDAP_MAPPING_FIELD_ONLOGIN_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="abort_login" type="radio" default="1" class="btn-group" description="PLG_LDAP_MAPPING_FIELD_ABORT_LOGIN_DESC" label="PLG_LDAP_MAPPING_FIELD_ABORT_LOGIN_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="spacer1" type="spacer" hr="true"/>
+				<field name="sync_groups" type="list" default="0" description="PLG_LDAP_MAPPING_FIELD_SYNC_GROUPS_DESC" label="PLG_LDAP_MAPPING_FIELD_SYNC_GROUPS_LABEL">
+					<option value="0">PLG_LDAP_MAPPING_FIELD_SYNC_YESFL</option>
+					<option value="1">PLG_LDAP_MAPPING_FIELD_SYNC_YESTFL</option>
+				</field>
+				<field name="addition" type="radio" default="1" class="btn-group" description="PLG_LDAP_MAPPING_FIELD_ADD_DESC" label="PLG_LDAP_MAPPING_FIELD_ADD_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="removal" type="list" default="2" description="PLG_LDAP_MAPPING_FIELD_REMOVE_DESC" label="PLG_LDAP_MAPPING_FIELD_REMOVE_LABEL">
+					<option value="2">PLG_LDAP_MAPPING_FIELD_REMOVE_YESDEFAULT</option>
+					<option value="1">PLG_LDAP_MAPPING_FIELD_REMOVE_YES</option>
+					<option value="0">PLG_LDAP_MAPPING_FIELD_REMOVE_NO</option>
+				</field>
+				<field name="unmanaged" type="text" default="" description="PLG_LDAP_MAPPING_FIELD_UNMANAGED_DESC" label="PLG_LDAP_MAPPING_FIELD_UNMANAGED_LABEL"/>
+				<field name="public_id" type="usergroup" required="true" default="2" description="PLG_LDAP_MAPPING_FIELD_PUBLICID_DESC" label="PLG_LDAP_MAPPING_FIELD_PUBLICID_LABEL"/>
+				<field name="spacer2" type="spacer" hr="true"/>
+				<field name="list" type="textarea" cols="50" required="true" description="PLG_LDAP_MAPPING_FIELD_LIST_DESC" label="PLG_LDAP_MAPPING_FIELD_LIST_LABEL" rows="6" default=""/>
+				<field name="dn_validate" type="radio" default="1" class="btn-group" description="PLG_LDAP_MAPPING_FIELD_DNVALIDATE_DESC" label="PLG_LDAP_MAPPING_FIELD_DNVALIDATE_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				
+				<field name="spacer3" type="spacer" hr="true"/>
+				<field name="lookup_type" type="list" required="true" default="0" description="PLG_LDAP_MAPPING_FIELD_LOOKUPTYPE_DESC" label="PLG_LDAP_MAPPING_FIELD_LOOKUPTYPE_LABEL">
+					<option value="0">PLG_LDAP_MAPPING_FIELD_LOOKUPTYPE_FORWARD</option>
+					<option value="1">PLG_LDAP_MAPPING_FIELD_LOOKUPTYPE_REVERSE</option>
+				</field>
+				<field name="memberof_attribute" type="text" required="true" default="memberOf" description="PLG_LDAP_MAPPING_FIELD_MEMBEROF_ATTRIBUTE_DESC" label="PLG_LDAP_MAPPING_FIELD_MEMBEROF_ATTRIBUTE_LABEL"/>
+				<field name="member_attribute" type="text" required="true" default="member" description="PLG_LDAP_MAPPING_FIELD_MEMBER_ATTRIBUTE_DESC" label="PLG_LDAP_MAPPING_FIELD_MEMBER_ATTRIBUTE_LABEL"/>
+				<field name="member_dn" type="text" required="true" default="dn" description="PLG_LDAP_MAPPING_FIELD_MEMBER_DN_DESC" label="PLG_LDAP_MAPPING_FIELD_MEMBER_DN_LABEL"/>
+				<field name="spacer4" type="spacer" hr="true"/>
+				<field name="recursion" type="radio" default="0" class="btn-group" description="PLG_LDAP_MAPPING_FIELD_USERECURSION_DESC" label="PLG_LDAP_MAPPING_FIELD_USERECURSION_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+				<field name="dn_attribute" type="text" default="distinguishedName" description="PLG_LDAP_MAPPING_FIELD_DNATTRIBUTE_DESC" label="PLG_LDAP_MAPPING_FIELD_DNATTRIBUTE_LABEL"/>
+				<field name="recursion_depth" type="text" default="0" description="PLG_LDAP_MAPPING_FIELD_RECURSIONDEPTH_DESC" label="PLG_LDAP_MAPPING_FIELD_RECURSIONDEPTH_LABEL"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

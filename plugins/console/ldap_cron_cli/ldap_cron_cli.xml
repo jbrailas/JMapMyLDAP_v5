@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="console" method="upgrade">
+	<name>Διαδικασία ldap_cron Console Plugin</name>
+	<version>1.0.0</version>
+	<creationDate>15-11-2023</creationDate>
+	<author>Giannis Brailas</author>
+	<description>Plugin ldap_cron</description>
+	<namespace path="src">PPCR\Plugin\Console\Ldap_Cron</namespace>
+	<files>
+		<folder plugin="ldap_cron_cli">services</folder>
+		<folder>src</folder>
+	</files>
+</extension>
+
+
+
+
+
+
+
+
+
+
+
+
