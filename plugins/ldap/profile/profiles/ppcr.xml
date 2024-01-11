@@ -31,8 +31,8 @@
 			<field
 				name="department"
 				type="text"
-				description="Εισάγετε τη διεύθυνση/τμήμα που ανήκετε"
-				label="Διεύθυνση/Τμήμα"
+				description="Please enter your department"
+				label="Department"
 				size="30"
 				filter="dept"
 				required="false"
