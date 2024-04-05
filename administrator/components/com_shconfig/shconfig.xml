@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="2.5" method="upgrade">
+<extension type="component" version="4.0" method="upgrade">
 	<name>com_shconfig</name>
-	<author>Shaun Maunder</author>
-	<creationDate>May 2013</creationDate>
+	<author>Giannis Brailas</author>
+	<creationDate>Apr 2024</creationDate>
 	<copyright>Copyright (C) 2013 Shaun Maunder. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>shaun@shmanic.com</authorEmail>
-	<authorUrl>www.shmanic.com</authorUrl>
-	<version>2.0.3.1</version>
-	<buildDate>Wed Feb 25 18:47:50 2015</buildDate>
+	<authorEmail>jbrailas@rns-systems.eu</authorEmail>
+	<authorUrl>www.rns-systems.eu</authorUrl>
+	<version>5.0</version>
+	<buildDate>Fri Apr 04 11:47:50 2024</buildDate>
 	<description>COM_SHCONFIG_XML_DESCRIPTION</description>
 	<scriptfile>shconfig_install.php</scriptfile>
 	
@@ -27,7 +27,6 @@
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
 	</update>
-	
 	
 	<administration>
 		<menu link="option=com_shconfig" view="items" alt="SHConfig">COM_SHCONFIG</menu>

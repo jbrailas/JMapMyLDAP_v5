@@ -1,15 +1,19 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package    Shmanic.Scripts
  * @author     Shaun Maunder <shaun@shmanic.com>
  *
  * @copyright  Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
+ * @edited 		2024
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Installer script for com_shconfig.
@@ -25,7 +29,7 @@ class Com_ShconfigInstallerScript
 	 * @var    string
 	 * @since  2.0
 	 */
-	const MIN_PHP_VERSION = '5.3.0';
+	const MIN_PHP_VERSION = '8.1.0';
 
 	/**
 	 * Method to run before an install/update/uninstall method.
@@ -39,11 +43,11 @@ class Com_ShconfigInstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
-		// Check the PHP version is at least at 5.3.0
+		// Check the PHP version is at least at 8.1.0
 		if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<'))
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::sprintf('COM_SHCONFIG_PREFLIGHT_PHP_VERSION', PHP_VERSION, self::MIN_PHP_VERSION),
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('COM_SHCONFIG_PREFLIGHT_PHP_VERSION', PHP_VERSION, self::MIN_PHP_VERSION),
 				'error'
 			);
 
@@ -66,7 +70,7 @@ class Com_ShconfigInstallerScript
 	{
 		if ($type == 'install' || $type == 'update')
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Update the platform version
 			$db->setQuery(

@@ -24,23 +24,3 @@ ALTER TABLE `#__sh_ldap_config`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
---
--- LDAP default table data for `#__sh_config`
---
-
-REPLACE INTO `#__sh_config`
-  SET `name` = 'ldap:version',
-  `value` = '2.0.0.0';
-
-REPLACE INTO `#__sh_config`
-  SET `name` = 'ldap:source',
-  `value` = '1';
-
-REPLACE INTO `#__sh_config`
-  SET `name` = 'ldap:plugin',
-  `value` = 'ldap';
-
-REPLACE INTO `#__sh_config` 
-  SET `name` = 'user:type',
-  `value` = 'ldap';
-
