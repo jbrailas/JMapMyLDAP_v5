@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Log.Sso
@@ -12,7 +12,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+
+//jimport('joomla.plugin.plugin');
 
 /**
  * SSO logging plugin.
@@ -21,7 +24,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Log.Sso
  * @since       2.0
  */
-class PlgShlogSso extends JPlugin
+class PlgShlogSso extends CMSPlugin
 {
 	const LOGGER_FILE = 'formattedtext';
 
@@ -49,13 +52,13 @@ class PlgShlogSso extends JPlugin
 		if ($this->params->get('enable_info', true))
 		{
 			// Setup a information file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_info', 'sso.info.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::INFO,
+				Log::INFO,
 				array(self::SSO_CATEGORY, self::AUTH_CATEGORY)
 			);
 		}
@@ -66,13 +69,13 @@ class PlgShlogSso extends JPlugin
 		if ($this->params->get('enable_debug', true))
 		{
 			// Setup a debugger file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_debug', 'sso.debug.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::ALL,
+				Log::ALL,
 				array(self::SSO_CATEGORY, self::AUTH_CATEGORY)
 			);
 		}
@@ -83,22 +86,22 @@ class PlgShlogSso extends JPlugin
 		if ($this->params->get('enable_error', true))
 		{
 			// Setup a error file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_error', 'sso.error.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::ERROR,
+				Log::ERROR,
 				array(self::SSO_CATEGORY, self::AUTH_CATEGORY)
 			);
 
 			if ($this->params->get('error_to_screen', true))
 			{
 				// Setup a error on-screen logger
-				JLog::addLogger(
+				Log::addLogger(
 					array('logger' => self::LOGGER_SCREEN),
-					JLog::ERROR,
+					Log::ERROR,
 					array(self::SSO_CATEGORY, self::AUTH_CATEGORY)
 				);
 			}

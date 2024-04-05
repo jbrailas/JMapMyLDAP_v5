@@ -1,18 +1,21 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Log.Ldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+
+//jimport('joomla.plugin.plugin');
 
 /**
  * LDAP logging plugin.
@@ -21,7 +24,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Log.Ldap
  * @since       2.0
  */
-class PlgShlogLdap extends JPlugin
+class PlgShlogLdap extends CMSPlugin
 {
 	const LOGGER_FILE = 'formattedtext';
 
@@ -49,13 +52,13 @@ class PlgShlogLdap extends JPlugin
 		if ($this->params->get('enable_info', true))
 		{
 			// Setup a information file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_info', 'ldap.info.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::INFO,
+				Log::INFO,
 				array(self::LDAP_CATEGORY, self::AUTH_CATEGORY)
 			);
 		}
@@ -66,13 +69,13 @@ class PlgShlogLdap extends JPlugin
 		if ($this->params->get('enable_debug', true))
 		{
 			// Setup a debugger file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_debug', 'ldap.debug.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::ALL,
+				Log::ALL,
 				array(self::LDAP_CATEGORY, self::AUTH_CATEGORY)
 			);
 		}
@@ -83,22 +86,22 @@ class PlgShlogLdap extends JPlugin
 		if ($this->params->get('enable_error', true))
 		{
 			// Setup a error file logger
-			JLog::addLogger(
+			Log::addLogger(
 				array(
 					'logger' => self::LOGGER_FILE,
 					'text_file' => $this->params->get('log_name_error', 'ldap.error.php'),
 					'text_entry_format' => $fileFormat
 				),
-				JLog::ERROR,
+				Log::ERROR,
 				array(self::LDAP_CATEGORY, self::AUTH_CATEGORY)
 			);
 
 			if ($this->params->get('error_to_screen', true))
 			{
 				// Setup a error on-screen logger
-				JLog::addLogger(
+				Log::addLogger(
 					array('logger' => self::LOGGER_SCREEN),
-					JLog::ERROR,
+					Log::ERROR,
 					array(self::LDAP_CATEGORY, self::AUTH_CATEGORY)
 				);
 			}
