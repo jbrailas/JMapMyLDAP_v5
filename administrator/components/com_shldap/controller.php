@@ -1,18 +1,22 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controlleradmin');
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+
+//jimport('joomla.application.component.controlleradmin');
 
 /**
  * Base controller class for Shldap.
@@ -21,7 +25,7 @@ jimport('joomla.application.component.controlleradmin');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapController extends JControllerLegacy
+class ShldapController extends BaseController
 {
 	/**
 	 * The default view.
@@ -44,10 +48,10 @@ class ShldapController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Get the input class
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Set the default view name and format from the Request.
 		$vName	 = $input->get('view', 'dashboard', 'cmd');
@@ -59,7 +63,7 @@ class ShldapController extends JControllerLegacy
 		if ($vName == 'host' && $lName == 'edit' && !$this->checkEditId('com_shldap.edit.host', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setRedirect(JRoute::_('index.php?option=com_shldap&view=hosts', false));
+			$this->setRedirect(Route::_('index.php?option=com_shldap&view=hosts', false));
 
 			return false;
 		}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="2.5" method="upgrade">
+<extension type="component" version="4.0" method="upgrade">
 	<name>com_shldap</name>
 	<author>Giannis Brailas</author>
 	<creationDate>Apr 2024</creationDate>
