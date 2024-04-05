@@ -1003,7 +1003,7 @@ class PlgLdapMapping extends CMSPlugin
  * @subpackage  Ldap.Mapping
  * @since       2.0
  */
-class SHLdapMappingEntry extends Object
+class SHLdapMappingEntry extends CMSObject
 {
 	/**
 	 * An array of RDNs to form the DN
