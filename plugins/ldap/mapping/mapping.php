@@ -1,18 +1,17 @@
 <?php
 /**
- * PHP Version 8
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Mapping
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-//jimport('joomla.plugin.plugin');
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\User;

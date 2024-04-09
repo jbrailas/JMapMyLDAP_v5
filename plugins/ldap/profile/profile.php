@@ -1,13 +1,12 @@
 <?php
 /**
- * PHP Version 8
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Profile
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
- * edited for Joomla 5
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +18,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\UserHelper;
-//jimport('joomla.plugin.plugin');
 
 /**
  * LDAP Profile Plugin

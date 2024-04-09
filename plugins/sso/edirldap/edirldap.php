@@ -12,9 +12,8 @@
  * @package     Shmanic.Plugin
  * @subpackage  SSO
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
- * edited for Joomla 5
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,7 +21,6 @@ use Joomla\CMS\Input\Input;
 use Joomla\CMS\Log\Log;
 defined('JPATH_PLATFORM') or die;
 
-//jimport('joomla.plugin.plugin');
 
 /**
  * Attempts to match a user based on their network address attribute (IP Address).
@@ -31,7 +29,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  SSO
  * @since       2.0
  */
-//class PlgSSOEDirLDAP extends JPlugin
+
 class PlgSSOEDirLDAP extends CMSPlugin
 {
 	/**

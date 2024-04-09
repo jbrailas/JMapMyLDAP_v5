@@ -5,7 +5,7 @@
  * @package     Shmanic.Plugin
  * @subpackage  Log.Sso
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,8 +14,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-
-//jimport('joomla.plugin.plugin');
 
 /**
  * SSO logging plugin.

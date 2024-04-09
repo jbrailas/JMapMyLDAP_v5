@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 
-//jimport('joomla.plugin.plugin');
-
 /**
  * LDAP logging plugin.
  *

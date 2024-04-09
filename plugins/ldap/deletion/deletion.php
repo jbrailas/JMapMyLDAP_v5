@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Deletion
@@ -12,7 +12,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * LDAP User Deletion Plugin.
@@ -21,7 +23,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Ldap.Deletion
  * @since       2.0
  */
-class PlgLdapDeletion extends JPlugin
+class PlgLdapDeletion extends CMSPlugin
 {
 	/**
 	 * Constructor
@@ -57,17 +59,17 @@ class PlgLdapDeletion extends JPlugin
 			try
 			{
 				$username = $user['username'];
-				SHLog::add(JText::sprintf('PLG_LDAP_DELETION_DEBUG_12905', $username), 12905, JLog::DEBUG, 'ldap');
+				SHLog::add(Text::sprintf('PLG_LDAP_DELETION_DEBUG_12905', $username), 12905, Log::DEBUG, 'ldap');
 
 				// Pick up the user and delete it using the User Adapter
 				$adapter = SHFactory::getUserAdapter($username);
 				$adapter->delete();
 
-				SHLog::add(JText::sprintf('PLG_LDAP_DELETION_INFO_12908', $username), 12908, JLog::INFO, 'ldap');
+				SHLog::add(Text::sprintf('PLG_LDAP_DELETION_INFO_12908', $username), 12908, Log::INFO, 'ldap');
 			}
 			catch (Exception $e)
 			{
-				SHLog::add($e, 12901, JLog::ERROR, 'ldap');
+				SHLog::add($e, 12901, Log::ERROR, 'ldap');
 			}
 		}
 	}

@@ -1,18 +1,20 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Injection
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * LDAP Form Injection Plugin
@@ -21,7 +23,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Ldap.Injection
  * @since       2.0
  */
-class PlgLdapInjection extends JPlugin
+class PlgLdapInjection extends CMSPlugin
 {
 	protected $passwordForms = array();
 
@@ -65,7 +67,7 @@ class PlgLdapInjection extends JPlugin
 	/**
 	 * Injects several fields into specific forms.
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form  $form  The form to be altered.
 	 * @param   array  $data  The associated data for the form.
 	 *
 	 * @return  boolean
@@ -75,7 +77,7 @@ class PlgLdapInjection extends JPlugin
 	public function onContentPrepareForm($form, $data)
 	{
 		// Check we are manipulating a valid form
-		if (!($form instanceof JForm))
+		if (!($form instanceof Form))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
 
@@ -91,8 +93,8 @@ class PlgLdapInjection extends JPlugin
 				if ($this->params->get('ldap_password_layout_edit', true))
 				{
 					// Check if this is in the 'edit' layout or in the save state
-					if ((strtolower(JFactory::getApplication()->input->get('layout')) === 'edit')
-						|| (strtolower(JFactory::getApplication()->input->get('task')) === 'save'))
+					if ((strtolower(Factory::getApplication()->input->get('layout')) === 'edit')
+						|| (strtolower(Factory::getApplication()->input->get('task')) === 'save'))
 					{
 						$form->loadFile(realpath(__DIR__) . '/forms/ldap_password.xml', false, false);
 					}

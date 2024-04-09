@@ -1,18 +1,21 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Creation
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.plugin');
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Factory;
 
 /**
  * LDAP User Creation Plugin
@@ -21,7 +24,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage  Ldap.Creation
  * @since       2.0
  */
-class PlgLdapCreation extends JPlugin
+class PlgLdapCreation extends CMSPlugin
 {
 	protected $templateName = null;
 
@@ -192,7 +195,7 @@ class PlgLdapCreation extends JPlugin
 
 			// Create the LDAP user now
 			SHLdapHelper::commitChanges($adapter, true, true);
-			SHLog::add(JText::sprintf('PLG_LDAP_CREATION_INFO_12821', $mandatory['username']), 12821, JLog::INFO, 'ldap');
+			SHLog::add(Text::sprintf('PLG_LDAP_CREATION_INFO_12821', $mandatory['username']), 12821, Log::INFO, 'ldap');
 
 			$this->username = $mandatory['username'];
 
@@ -215,7 +218,7 @@ class PlgLdapCreation extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			SHLog::add($e, 12802, JLog::ERROR, 'ldap');
+			SHLog::add($e, 12802, Log::ERROR, 'ldap');
 
 			return false;
 		}
@@ -242,16 +245,16 @@ class PlgLdapCreation extends JPlugin
 			try
 			{
 				// Check the session to ensure this user was created successfully last time
-				if (JFactory::getSession()->get('creation', null, 'ldap') == $this->username)
+				if (Factory::getSession()->get('creation', null, 'ldap') == $this->username)
 				{
 					$adapter = SHFactory::getUserAdapter($this->username);
 					$adapter->delete();
-					SHLog::add(JTest::sprintf('PLG_LDAP_CREATION_INFO_12826', $this->username), 12826, JLog::INFO, 'ldap');
+					SHLog::add(JTest::sprintf('PLG_LDAP_CREATION_INFO_12826', $this->username), 12826, Log::INFO, 'ldap');
 				}
 			}
 			catch (Exception $e)
 			{
-				SHLog::add($e, 12803, JLog::ERROR, 'ldap');
+				SHLog::add($e, 12803, Log::ERROR, 'ldap');
 			}
 
 			$this->username = null;
@@ -316,7 +319,7 @@ class PlgLdapCreation extends JPlugin
 		if (!file_exists($file))
 		{
 			// XML file doesn't exist
-			throw new RuntimeException(JText::sprintf('PLG_LDAP_CREATION_ERR_12811', $file), 12811);
+			throw new RuntimeException(Text::sprintf('PLG_LDAP_CREATION_ERR_12811', $file), 12811);
 		}
 
 		// Disable libxml errors and allow to fetch error information as needed
@@ -332,10 +335,10 @@ class PlgLdapCreation extends JPlugin
 			}
 
 			// XML loaded correctly but could not load the path - could be the domain
-			throw new RuntimeException(JText::sprintf('PLG_LDAP_CREATION_ERR_12813', $file, $this->domain), 12813);
+			throw new RuntimeException(Text::sprintf('PLG_LDAP_CREATION_ERR_12813', $file, $this->domain), 12813);
 		}
 
 		// Something is invalid about the XML file
-		throw new RuntimeException(JText::sprintf('PLG_LDAP_CREATION_ERR_12812', $file), 12812);
+		throw new RuntimeException(Text::sprintf('PLG_LDAP_CREATION_ERR_12812', $file), 12812);
 	}
 }
