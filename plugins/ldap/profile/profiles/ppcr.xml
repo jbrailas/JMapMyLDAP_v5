@@ -1,9 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="ldap_profile">
-		<fieldset name="personal"
+		<fieldset 
+			name="personal"
 			label="PLG_LDAP_PROFILE_FIELDSET_PERSONAL_LABEL"
 		>
+			<field
+				name="description"
+				type="textarea"
+				description="PLG_LDAP_PROFILE_FIELD_ABOUT_ME_DESC"
+				label="PLG_LDAP_PROFILE_FIELD_ABOUT_ME_LABEL"
+				cols="30"
+				rows="5"
+				filter="safehtml"
+				required="false"
+				disabled="false"
+			/>
+		</fieldset>
+		<fieldset 
+			name="ppcr_info"
+			label="PPCR Info"
+		>
+			<field
+				name="employeeID"
+				type="text"
+				description="Εισάγετε τον αριθμό μητρώου σας"
+				label="Αριθμός μητρώου"
+				filter="raw"
+				size="30"
+				required="false"
+				disabled="false"
+			/>
+			<field
+				name="manager"
+				type="text"
+				description="Εισάγετε τον άμεσο διευθυντή σας"
+				label="Διευθυντής"
+				filter="raw"
+				size="30"
+				required="false"
+				disabled="false"
+			/>
+			<field
+				name="department"
+				type="text"
+				description="Εισάγετε τη διεύθυνση/τμήμα που ανήκετε"
+				label="Διεύθυνση/Τμήμα"
+				size="30"
+				filter="raw"
+				required="false"
+				disabled="false"
+			/>
 			<field
 				name="telephoneNumber"
 				type="text"
@@ -24,58 +71,6 @@
 				required="false"
 				disabled="false"
 			/>
-		</fieldset>
-		<fieldset name="ppcr_department"
-			label="PPCR Department"
-		>
-			<field
-				name="department"
-				type="text"
-				description="Εισάγετε τη διεύθυνση/τμήμα που ανήκετε"
-				label="Διεύθυνση/Τμήμα"
-				size="30"
-				filter="dept"
-				required="false"
-				disabled="false"
-			/>
-			<field
-				name="description"
-				type="textarea"
-				description="PLG_LDAP_PROFILE_FIELD_ABOUT_ME_DESC"
-				label="PLG_LDAP_PROFILE_FIELD_ABOUT_ME_LABEL"
-				cols="30"
-				rows="5"
-				filter="safehtml"
-				required="false"
-				disabled="false"
-			/>
 		</fieldset>	
-		<fieldset name="website"
-			label="PLG_LDAP_PROFILE_FIELDSET_WEBSITE_LABEL"
-		>
-			<field
-				name="wWWHomePage"
-				type="text"
-				description="PLG_LDAP_PROFILE_FIELD_HOMEPAGE_DESC"
-				label="PLG_LDAP_PROFILE_FIELD_HOMEPAGE_LABEL"
-				size="30"
-				filter="string"
-				required="false"
-				sync="true"
-				disabled="false"
-			/>
-			<field
-				name="url"
-				type="textarea"
-				description="PLG_LDAP_PROFILE_FIELD_LINKS_DESC"
-				label="PLG_LDAP_PROFILE_FIELD_LINKS_LABEL"
-				cols="30"
-				filter="string"
-				required="false"
-				sync="true"
-				disabled="false"
-				delimiter="NEWLINE"
-			/>
-		</fieldset>
 	</fields>
 </form>

@@ -144,12 +144,16 @@ class PlgLdapProfile extends CMSPlugin
 		$this->use_domain = (bool) $this->params->get('use_domain', false);
 		$this->profile_name = $this->params->get('profile_name', 'default');
 		$this->profile_base = $this->params->get('profile_base');
-
+		
+		//error_log("profile base is:" . $this->profile_base);
+		
 		if (empty($this->profile_base))
 		{
 			// Use default base path
 			$this->profile_base = JPATH_PLUGINS . '/ldap/profile/profiles';
 		}
+		
+		//error_log("profile base is now:" . $this->profile_base);
 
 		$this->lang_base = $this->params->get('lang_base');
 
@@ -213,7 +217,7 @@ class PlgLdapProfile extends CMSPlugin
 	 */
 	public function onUserLogin(&$instance, $options = array()) {
 		if ($this->params->get('onlogin')) {
-			//echo "onUserLogin instance is " . $instance->username . "\n";
+			//echo "onUserLogin instance is " . print_r($instance, true) . "\n";
 			//echo "onUserLogin options is " . $options . "\n";
 			$result = $this->onLdapSync($instance, $options);
 			
@@ -257,20 +261,26 @@ class PlgLdapProfile extends CMSPlugin
 			
 			// Gather the user adapter
 			if (gettype($instance) != 'object') {
-				///$username = $instance["username"]; παίζει αλλά δεν βρίσκει αλλαγές
-				////$instance_id = intval(UserHelper::getUserId($username)); παίζει αλλά δεν βρίσκει αλλαγές
-				$change = false;
+				$username = $instance["username"];
+				$instance_id = intval(UserHelper::getUserId($username));
+				$adapter = SHFactory::getUserAdapter($username);
+				//$change = false;
+				//error_log("username:" . $username);
+				//error_log("instance_id:" . $instance_id);
+				//error_log("adapter:" . print_r($adapter, true));
+				//error_log("this->use_profile:" . $this->use_profile);
+				
+				$change = $this->updateMandatory($instance, $adapter);
 			}
 			else {
 				$username = $instance->username;
 				$instance_id = $instance->id;
 			
 				$adapter = SHFactory::getUserAdapter($username);
-				
-				
+			
 				// Mandatory Joomla field processing and saving
 				$change = $this->updateMandatory($instance, $adapter);
-				
+			}	
 				//debug below (enable from joomla global settings first)
 				//SHLog::add("user id is " . $instance_id, 0, Log::ERROR, 'ldap');
 				
@@ -290,7 +300,7 @@ class PlgLdapProfile extends CMSPlugin
 						return true;
 					}
 				}
-			}
+			//}
 
 			// No change at saveProfile but might be change at updateMandatory
 			return $change;
@@ -728,7 +738,7 @@ class PlgLdapProfile extends CMSPlugin
 	 *
 	 * @return  boolean  True if a change occurred.
 	 *
-	 * @since   2.0
+	 * @since   5.0
 	 */
 	protected function updateMandatory(&$instance, $adapter)
 	{
@@ -738,44 +748,78 @@ class PlgLdapProfile extends CMSPlugin
 		$enabled_disabled	= $adapter->getEnabledDisabled();
 
 		//SHLog::add("adapter->getFullname is " . $fullname . " and instance[fullname] is " . $instance["fullname"] , 0, Log::ERROR, 'ldap');
-		if ($this->sync_name && !empty($fullname) && $instance->name !== $fullname){
-		//if ($this->sync_name && !empty($fullname) && $instance["fullname"] !== $fullname){	
-			// Update the name of the User to the Ldap value
-			$instance->name = $fullname;
-			//$instance["name"] = $fullname;
-			//$instance["fullname"] = $fullname;
-			$change = true;
-		}
-
-		if ($this->sync_email && !empty($email) && $instance->email !== $email) {
-		//if ($this->sync_email && !empty($email) && $instance["email"] !== $email) {
-			// Update the email of the User to the Ldap value
-			$instance->email = $email;
-			//$instance["email"] = $email;
-			$change = true;
-		}
 		
-		//SHLog::add("adapter->getEnabledDisabled is " . $enabled_disabled . " and instance[block] is " . $instance["block"] , 0, Log::ERROR, 'ldap');
-		if ($this->sync_enabled_disabled && !empty($enabled_disabled)) {
+		if (gettype($instance) != 'object') {
 			
-			//if ldap userAccountControl attribute has value 514 or 66050 then check if the user is already blocked or not
-			if ($enabled_disabled == 514 || $enabled_disabled == 66050) {
+			if ($this->sync_name && !empty($fullname) && $instance["name"] !== $fullname){
 				
-				if ($instance->block !== 1) { //if the user is not blocked then block him/her.
-					$instance->block = 1;
-					$change = true;
-				}
+				// Update the name of the User to the Ldap value
+				$instance["name"] = $fullname;
+				$change = true;
 			}
-			//if ldap userAccountControl attribute has not value 514 or 66050 then check if the user is already blocked or not
-			else {
-				if ($instance->block == 1)  { //if the user is blocked then unblock him/her.
-					$instance->block = 0;
-					$change = true;	
-				}
+			if ($this->sync_email && !empty($email) && $instance["email"] !== $email) {
 				
+				// Update the email of the User to the Ldap value
+				$instance["email"] = $email;
+				$change = true;
 			}
 			
+			if ($this->sync_enabled_disabled && !empty($enabled_disabled)) {
+				
+				//if ldap userAccountControl attribute has value 514 or 66050 then check if the user is already blocked or not
+				if ($enabled_disabled == 514 || $enabled_disabled == 66050) {
+					
+					if ($instance["block"] !== 1) { //if the user is not blocked then block him/her.
+						$instance["block"] = 1;
+						$change = true;
+					}
+				}
+				//if ldap userAccountControl attribute has not value 514 or 66050 then check if the user is already blocked or not
+				else {
+					if ($instance["block"] == 1)  { //if the user is blocked then unblock him/her.
+						$instance["block"] = 0;
+						$change = true;	
+					}
+					
+				}
+			}
+		}
+		else {
 			
+			if ($this->sync_name && !empty($fullname) && $instance->name !== $fullname){	
+				
+				// Update the name of the User to the Ldap value
+				$instance->name = $fullname;
+				$change = true;
+			}
+
+			if ($this->sync_email && !empty($email) && $instance->email !== $email) {
+
+				// Update the email of the User to the Ldap value
+				$instance->email = $email;
+				$change = true;
+			}
+		
+			//SHLog::add("adapter->getEnabledDisabled is " . $enabled_disabled . " and instance[block] is " . $instance["block"] , 0, Log::ERROR, 'ldap');
+			if ($this->sync_enabled_disabled && !empty($enabled_disabled)) {
+				
+				//if ldap userAccountControl attribute has value 514 or 66050 then check if the user is already blocked or not
+				if ($enabled_disabled == 514 || $enabled_disabled == 66050) {
+					
+					if ($instance->block !== 1) { //if the user is not blocked then block him/her.
+						$instance->block = 1;
+						$change = true;
+					}
+				}
+				//if ldap userAccountControl attribute has not value 514 or 66050 then check if the user is already blocked or not
+				else {
+					if ($instance->block == 1)  { //if the user is blocked then unblock him/her.
+						$instance->block = 0;
+						$change = true;	
+					}
+					
+				}
+			}
 		}
 
 		if ($change) {
@@ -930,6 +974,7 @@ class PlgLdapProfile extends CMSPlugin
 
 			// Get the action status required against the SQL table
 			$status = $this->checkSqlField($current, $attribute, $value);
+			//error_log("current is: " . print_r($current, true) . "|attribute is " . print_r($attribute, true) . "|value is " . print_r($value, true));
 
 			switch ($status)
 			{
@@ -1026,7 +1071,7 @@ class PlgLdapProfile extends CMSPlugin
 		$db->setQuery($query);
 
 		//return $db->query();
-		//MysqliDriver::query() method is obsolete with Joomal4.
+		//MysqliDriver::query() method is obsolete with Joomla 5.
 		//You have to replace by MysqliDriver::execute()
 		return $db->execute();
 	}
@@ -1081,10 +1126,40 @@ class PlgLdapProfile extends CMSPlugin
 	 */
 	protected function addRecords($userId, $attributes, $order)
 	{
+		//https://docs.joomla.org/J4.x:Inserting_Updating_and_Removing_data_using_JDatabase/en
 		$db = Factory::getDBO();
-		$query = $db->getQuery(true);
 
-		$query->insert($query->quoteName('#__user_profiles'))
+		
+		foreach ($attributes as $key => $value) {
+			
+			$query = $db->getQuery(true);
+		
+			// Insert columns.
+			$columns = array('user_id', 'profile_key', 'profile_value', 'ordering');
+			
+			// Prepare the insert query.
+			$query
+				->insert($db->quoteName('#__user_profiles'))
+				->columns($db->quoteName($columns))
+				->values(':user_id, :profile_key, :profile_value, :ordering');
+
+			// Bind values
+			$key = 'ldap.' . $key;
+			$user_id = (int) $userId;
+			$query
+				->bind(':user_id', $user_id, Joomla\Database\ParameterType::INTEGER)
+				->bind(':profile_key', $key)
+				->bind(':profile_value', $value)
+				->bind(':ordering', $order, Joomla\Database\ParameterType::INTEGER);
+			
+			++$order;
+			
+			$db->setQuery($query);
+			
+			$result = $db->execute();
+		}
+		
+		/*$query->insert($query->quoteName('#__user_profiles'))
 			->columns(
 				array(
 					$query->quoteName('user_id'),
@@ -1106,14 +1181,12 @@ class PlgLdapProfile extends CMSPlugin
 			);
 
 			++$order;
-		}
-
-		$db->setQuery($query);
+		}*/
 
 		//return $db->query();
-		//MysqliDriver::query() method is obsolete with Joomal4.
+		//MysqliDriver::query() method is obsolete with Joomla 5.
 		//You have to replace by MysqliDriver::execute()
-		return $db->execute();
+		return $result;
 	}
 
 	/**
@@ -1131,26 +1204,50 @@ class PlgLdapProfile extends CMSPlugin
 		$result = true;
 
 		$db = Factory::getDBO();
-		$query = $db->getQuery(true);
 
 		foreach ($attributes as $key => $value)
 		{
+			$query = $db->getQuery(true);
+			
+			$key = 'ldap.' . $key;
+			$user_id = (int) $userId;
+			
+			// Fields to update.
+			$fields = array(
+				$db->quoteName('profile_value') . ' = :profile_value'
+			);
+
+			// Conditions for which records should be updated.
+			$conditions = array(
+				$db->quoteName('user_id') . ' = :user_id', 
+				$db->quoteName('profile_key') . ' = :profile_key'
+			);
+
+			$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+
+			$query
+				->bind(':profile_value', $value)
+				->bind(':user_id', $user_id, Joomla\Database\ParameterType::INTEGER)   
+				->bind(':profile_key', $key);
+			
+			/*
 			$key = 'ldap.' . $key;
 			$query->update($query->quoteName('#__user_profiles'))
 				->set($query->quoteName('profile_value') . ' = ' . $db->quote($value))
 				->where($query->quoteName('profile_key') . ' = ' . $query->quote($key))
 				->where($query->quoteName('user_id') . ' = ' . $query->quote((int) $userId));
-
+			*/
+			
 			$db->setQuery($query);
 
 			//if (!$db->query()) {
-			//MysqliDriver::query() method is obsolete with Joomal4.
+			//MysqliDriver::query() method is obsolete with Joomla 5.
 			//You have to replace by MysqliDriver::execute()
 			if (!$db->execute()) {
 				$result = false;
 			}
 
-			$query->clear();
+			//$query->clear();
 		}
 
 		return $result;
@@ -1171,25 +1268,39 @@ class PlgLdapProfile extends CMSPlugin
 		$result = true;
 
 		$db = Factory::getDBO();
-		$query = $db->getQuery(true);
-
-		foreach ($attributes as $key)
-		{
+		
+		foreach ($attributes as $key) {
+			$query = $db->getQuery(true);
+			
 			$key = 'ldap.' . $key;
-			$query->delete($query->quoteName('#__user_profiles'))
+			$user_id = (int) $userId;
+			/*$query->delete($query->quoteName('#__user_profiles'))
 				->where($query->quoteName('user_id') . ' = ' . $query->quote((int) $userId))
 				->where($query->quoteName('profile_key') . ' = ' . $query->quote($key));
+			*/
+			
+			$conditions = array(
+				$db->quoteName('user_id') . ' = :user_id', 
+				$db->quoteName('profile_key') . ' = :profile_key'
+			);
 
+			$query->delete($db->quoteName('#__user_profiles'));
+			$query->where($conditions);
+
+			$query
+				->bind(':user_id', $user_id, Joomla\Database\ParameterType::INTEGER)
+				->bind(':profile_key', $key);
+			
 			$db->setQuery($query);
 
 			//if (!$db->query()) {
-			//MysqliDriver::query() method is obsolete with Joomal4.
+			//MysqliDriver::query() method is obsolete with Joomla 5.
 			//You have to replace by MysqliDriver::execute()
 			if (!$db->execute()) {				
 				$result = false;
 			}
 
-			$query->clear();
+			//$query->clear();
 		}
 
 		return $result;

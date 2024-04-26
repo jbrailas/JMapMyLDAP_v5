@@ -1,16 +1,21 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Libraries
  * @subpackage  SSO
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @updated		2024 by Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * An SSO helper class.
@@ -98,7 +103,7 @@ abstract class SHSsoHelper
 
 		$behaviour = (int) $config->get('sso.behaviour', 1);
 
-		$status = JFactory::getSession()->get(self::SESSION_STATUS_KEY, false);
+		$status = Factory::getSession()->get(self::SESSION_STATUS_KEY, false);
 
 		if ($status === false)
 		{
@@ -124,10 +129,10 @@ abstract class SHSsoHelper
 			$usernameField = $config->get('sso.checkusernull', true);
 
 			// Check if the URL contains this key and the value assigned to it
-			$input = new JInput;
+			$input = new Input;
 			$task = $input->get('task', false);
 
-			if ((!in_array($task, $tasks) || !JSession::checkToken()) || ($usernameField && $input->get('username', null)))
+			if ((!in_array($task, $tasks) || !Session::checkToken()) || ($usernameField && $input->get('username', null)))
 			{
 				$formLogin = false;
 			}
@@ -164,7 +169,7 @@ abstract class SHSsoHelper
 	 */
 	public static function enable($bypass = false)
 	{
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		if (!$bypass)
 		{
@@ -189,12 +194,12 @@ abstract class SHSsoHelper
 	 */
 	public static function disable($bypass = false)
 	{
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		// If this is a logout then we only want to set the session if bypass disable isn't enabled
 		if ($bypass || $session->get(self::SESSION_STATUS_KEY, false) != self::STATUS_BYPASS_DISABLE)
 		{
-			JFactory::getSession()->set(self::SESSION_STATUS_KEY, $bypass ? self::STATUS_BYPASS_DISABLE : self::STATUS_LOGOUT_DISABLE);
+			Factory::getSession()->set(self::SESSION_STATUS_KEY, $bypass ? self::STATUS_BYPASS_DISABLE : self::STATUS_LOGOUT_DISABLE);
 		}
 	}
 
@@ -207,14 +212,14 @@ abstract class SHSsoHelper
 	 */
 	public static function redirect()
 	{
-		$input = new JInput;
+		$input = new Input;
 		$return = $input->get('return', null, 'base64');
 
-		if (!empty($return) && JUri::isInternal(base64_decode($return)))
+		if (!empty($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$redirect = base64_decode($return);
 
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$app->redirect($redirect);
 		}
 	}

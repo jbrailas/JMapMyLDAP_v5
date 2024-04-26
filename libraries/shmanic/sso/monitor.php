@@ -1,11 +1,11 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Libraries
  * @subpackage  SSO
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @updated		2024 by Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP Version 8
+ * PHP Version 8.1
  *
  * ============== Original based on JAuthTools ===============
  * http://joomlacode.org/gf/project/jauthtools
@@ -12,7 +12,7 @@
  * @package     Shmanic.Libraries
  * @subpackage  SSO
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @updated		2024 by Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -805,11 +805,15 @@ else {
 			if (isset($options['attributes']['fullname']))
 			{
 				$response->fullname = $options['attributes']['fullname'];
+				$response->name = $options['attributes']['fullname'];
 			}
 		}
-//new 04-11-2023: something broke in php 8.1 and doesn't get email
-					$response->email = Factory::getUser($username)->email;
-					//new 04-11-2023
+		
+		//new 04-11-2023: workaround
+		$response->name = Factory::getUser($username)->name;
+		$response->email = Factory::getUser($username)->email;
+		
+		//new 04-11-2023
 		// Import the authentication and user plug-ins in case they havent already
 		// J! Pull Request: https://github.com/joomla/joomla-platform/pull/1305
 		PluginHelper::importPlugin('user');
@@ -832,9 +836,7 @@ else {
 				if ($authorisation->status === Authentication::STATUS_SUCCESS) {
 					// This username is authorised to use the system
 					$response->status = Authentication::STATUS_SUCCESS;
-					
-					
-					
+
 					return $response;
 				}
 			}
