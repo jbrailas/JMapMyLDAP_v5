@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `#__sh_config` (
   `value` text
 );
 
-INSERT INTO `ihs14_sh_config` (`id`, `name`, `value`) VALUES
+INSERT INTO `#__sh_config` (`id`, `name`, `value`) VALUES
 (1, 'platform:version', '5.0'),
 (2, 'platform:import', '[\"ldap\",\"sso\"]'),
 (3, 'user:autoregister', '2'),
@@ -35,12 +35,12 @@ INSERT INTO `ihs14_sh_config` (`id`, `name`, `value`) VALUES
 (25, 'ldap:namespaces', '');
 
 
-ALTER TABLE `ihs14_sh_config`
+ALTER TABLE `#__sh_config`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_name` (`name`);
   
   
-ALTER TABLE `ihs14_sh_config`
+ALTER TABLE `#__sh_config`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
