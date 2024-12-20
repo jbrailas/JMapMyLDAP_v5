@@ -1,18 +1,20 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controlleradmin');
+use Joomla\CMS\MVC\Controller\AdminController;
+
+//jimport('joomla.application.component.controlleradmin');
 
 /**
  * Dashboard controller class for Shldap.
@@ -21,7 +23,7 @@ jimport('joomla.application.component.controlleradmin');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapControllerDashboard extends JControllerAdmin
+class ShldapControllerDashboard extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.

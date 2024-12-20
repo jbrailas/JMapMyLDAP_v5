@@ -1,18 +1,24 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+//jimport('joomla.application.component.controllerform');
 
 /**
  * Host controller class for Shldap.
@@ -21,7 +27,7 @@ jimport('joomla.application.component.controllerform');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapControllerHost extends JControllerForm
+class ShldapControllerHost extends FormController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -52,7 +58,7 @@ class ShldapControllerHost extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		return JFactory::getUser()->authorise('core.admin', $this->option);
+		return Factory::getUser()->authorise('core.admin', $this->option);
 	}
 
 	/**
@@ -69,7 +75,7 @@ class ShldapControllerHost extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		return JFactory::getUser()->authorise('core.manage', $this->option);
+		return Factory::getUser()->authorise('core.manage', $this->option);
 	}
 
 	/**
@@ -86,7 +92,7 @@ class ShldapControllerHost extends JControllerForm
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		return (JFactory::getUser()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
+		return (Factory::getUser()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
 	}
 
 	/**
@@ -102,14 +108,14 @@ class ShldapControllerHost extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
+		$app   = Factory::getApplication();
+		$lang  = Factory::getLanguage();
 		$model = $this->getModel();
 		//$data  = JRequest::getVar('jform', array(), 'post', 'array');
-		$data = $app->get('jform', array(), 'post', 'array');
+		$data = $app->input->get('jform', array(), 'post', 'array');
 
 		$context = "$this->option.edit.$this->context";
 
@@ -121,11 +127,11 @@ class ShldapControllerHost extends JControllerForm
 		// Access check.
 		if (!$this->allowEdit())
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . '&layout=edit'
 					. $this->getRedirectToListAppend(), false
 				)
@@ -172,7 +178,7 @@ class ShldapControllerHost extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit'
 					. $this->getRedirectToListAppend(), false
 				)
@@ -188,11 +194,11 @@ class ShldapControllerHost extends JControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit'
 					. $this->getRedirectToListAppend(), false
 				)
@@ -201,13 +207,13 @@ class ShldapControllerHost extends JControllerForm
 			return false;
 		}
 
-		$this->setMessage(JText::_('JLIB_APPLICATION_SAVE_SUCCESS'));
+		$this->setMessage(Text::_('JLIB_APPLICATION_SAVE_SUCCESS'));
 
 		$recordId = $model->getState($this->context . '.id');
 
 		// Redirect back to the edit screen (on the same record)
 		$this->setRedirect(
-			JRoute::_(
+			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend($recordId, $urlVar), false
 			)

@@ -1,18 +1,24 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controlleradmin');
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+//jimport('joomla.application.component.controlleradmin');
 
 /**
  * Hosts controller class for Shldap.
@@ -21,7 +27,7 @@ jimport('joomla.application.component.controlleradmin');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapControllerHosts extends JControllerAdmin
+class ShldapControllerHosts extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -50,11 +56,11 @@ class ShldapControllerHosts extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		if (!Factory::getUser()->authorise('core.admin', $this->option))
 		{
-			//JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 500);
-			jexit();
+			//JError::raiseError(500, Text::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 500);
+			return;
 		}
 
 		return parent::delete();
@@ -70,17 +76,17 @@ class ShldapControllerHosts extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		$ids = $input->get('cid', null, 'array');
 
 		if (count($ids) !== 1)
 		{
 			// Cannot have more than one default
-			$message = JText::_('COM_SHLDAP_HOSTS_DEFAULT_SINGLE_ROW_ONLY');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = Text::_('COM_SHLDAP_HOSTS_DEFAULT_SINGLE_ROW_ONLY');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -91,16 +97,16 @@ class ShldapControllerHosts extends JControllerAdmin
 		if ($return === false)
 		{
 			// Default failed.
-			$message = JText::sprintf('COM_SHLDAP_HOSTS_DEFAULT_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$message = Text::sprintf('COM_SHLDAP_HOSTS_DEFAULT_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
 		else
 		{
 			// Default succeeded.
-			$message = JText::_('COM_SHLDAP_HOSTS_DEFAULT_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = Text::_('COM_SHLDAP_HOSTS_DEFAULT_SUCCESS');
+			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
 			return true;
 		}

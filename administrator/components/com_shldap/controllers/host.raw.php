@@ -1,11 +1,11 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,6 +13,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Language\Text;
+
 /**
  * RAW Host controller class for Shldap.
  *
@@ -20,7 +23,7 @@ use Joomla\CMS\Factory;
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapControllerHost extends JControllerLegacy
+class ShldapControllerHost extends BaseController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -49,9 +52,9 @@ class ShldapControllerHost extends JControllerLegacy
 	{
 		if (!Factory::getUser()->authorise('core.manage', 'com_shldap'))
 		{
-			//JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 500);
-			jexit();
+			//JError::raiseError(500, Text::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 500);
+			return;
 		}
 
 		$input = Factory::getApplication()->input;
