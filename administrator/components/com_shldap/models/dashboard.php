@@ -1,18 +1,22 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Component\ComponentHelper;
+
+//jimport('joomla.application.component.modellist');
 /////jimport('joomla.event.dispatcher');
 
 /**
@@ -22,7 +26,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapModelDashboard extends JModelList
+class ShldapModelDashboard extends ListModel
 {
 	/**
 	 * Constructor.
@@ -64,14 +68,14 @@ class ShldapModelDashboard extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_shldap');
+		$params = ComponentHelper::getParams('com_shldap');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -170,7 +174,7 @@ class ShldapModelDashboard extends JModelList
 				$ldap = new SHLdap($config);
 
 				// Need to process the ldap formatting for the host configuration ready for a fsockopen
-				$processed = str_replace(array('ldap://', 'ldaps://'), '', $config->get('host'));
+				$processed = str_replace(array('ldap://', 'ldaps://'), '', $config->get('host', ''));
 
 				if ($pos = strpos($processed, chr(32)))
 				{

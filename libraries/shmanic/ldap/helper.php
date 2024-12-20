@@ -5,7 +5,7 @@
  * @package     Shmanic.Libraries
  * @subpackage  Ldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -603,7 +603,7 @@ abstract class SHLdapHelper
 		// Create a new adapter
 		if ($type = ucfirst(strtolower($type ?? '')))
 		{
-			$class = "SHUserAdapters${type}";
+			$class = "SHUserAdapters{$type}";
 
 			$adapter = new $class(array('username' => '', 'password' => ''));
 

@@ -380,7 +380,7 @@ class SHLdap
 		else
 		{
 			// Just rethrow the one exception
-			throw $errors[0];
+			error_log($errors[0]);
 		}
 	}
 

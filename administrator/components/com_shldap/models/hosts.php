@@ -1,18 +1,22 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Component\ComponentHelper;
+
+//jimport('joomla.application.component.modellist');
 
 /**
  * Hosts model class for Shldap.
@@ -21,7 +25,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage  Shldap
  * @since       2.0
  */
-class ShldapModelHosts extends JModelList
+class ShldapModelHosts extends ListModel
 {
 	/**
 	 * Constructor.
@@ -164,7 +168,7 @@ class ShldapModelHosts extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -174,7 +178,7 @@ class ShldapModelHosts extends JModelList
 		$this->setState('filter.state', $state);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_shldap');
+		$params = ComponentHelper::getParams('com_shldap');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -193,7 +197,7 @@ class ShldapModelHosts extends JModelList
 	 */
 	public function getCountDomain($id, $name)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$authDomain = SHUserHelper::PARAM_AUTH_DOMAIN;
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,8 +15,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Form\Form;
 
-jimport('joomla.application.component.modeladmin');
+//jimport('joomla.application.component.modeladmin');
 
 /**
  * Host model class for Shldap.
@@ -65,7 +66,7 @@ class ShldapModelHost extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		//JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields'); //NEW
+		//Form::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields'); //NEW
 		
 		if ($loadData && !empty($data))
 		{

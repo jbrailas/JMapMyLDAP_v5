@@ -4,7 +4,7 @@
  *
  * @package    Shmanic.Libraries
  * @author     Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited	   2024 Giannis Brailas
  * @copyright  Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -222,7 +222,7 @@ abstract class SHFactory
 
 			// Camel case friendly for class name
 			$type = ucfirst(strtolower($type));
-			$class = "SHUserAdapters${type}";
+			$class = "SHUserAdapters{$type}";
 
 			if (class_exists($class))
 			{
