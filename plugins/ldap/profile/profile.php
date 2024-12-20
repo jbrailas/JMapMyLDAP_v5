@@ -5,7 +5,7 @@
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Profile
  * @author      Shaun Maunder <shaun@shmanic.com>
- * @edited		2024
+ * @edited		2024 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -765,10 +765,9 @@ class PlgLdapProfile extends CMSPlugin
 			}
 			
 			if ($this->sync_enabled_disabled && !empty($enabled_disabled)) {
-				
+				SHLog::add("enabled_disabled is " . $enabled_disabled);
 				//if ldap userAccountControl attribute has value 514 or 66050 then check if the user is already blocked or not
 				if ($enabled_disabled == 514 || $enabled_disabled == 66050) {
-					
 					if ($instance["block"] !== 1) { //if the user is not blocked then block him/her.
 						$instance["block"] = 1;
 						$change = true;
@@ -776,7 +775,8 @@ class PlgLdapProfile extends CMSPlugin
 				}
 				//if ldap userAccountControl attribute has not value 514 or 66050 then check if the user is already blocked or not
 				else {
-					if ($instance["block"] == 1)  { //if the user is blocked then unblock him/her.
+					//SHLog::add("block is " . $instance["block"]);
+					if (!empty($instance["block"]) && $instance["block"] == 1)  { //if the user is blocked then unblock him/her.
 						$instance["block"] = 0;
 						$change = true;	
 					}
