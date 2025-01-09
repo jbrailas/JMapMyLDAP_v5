@@ -1,19 +1,23 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shconfig
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		Giannis Brailas 2025
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
 
 /**
  * Settings view class for Shldap.
@@ -22,7 +26,7 @@ use Joomla\CMS\Toolbar\Toolbar;
  * @subpackage  Shconfig
  * @since       2.0
  */
-class ShconfigViewSettings extends JViewLegacy
+class ShconfigViewSettings extends HtmlView
 {
 	protected $form = null;
 
@@ -48,7 +52,7 @@ class ShconfigViewSettings extends JViewLegacy
 		}
 
 		$this->addToolbar($this->getLayout());
-		$this->sidebar = JHtmlSidebar::render(); //Joomla 4
+		$this->sidebar = Sidebar::render(); //Joomla 5
 		parent::display($tpl);
 	}
 
@@ -63,11 +67,11 @@ class ShconfigViewSettings extends JViewLegacy
 	 */
 	protected function addToolbar($lName = 'base')
 	{
-		$user	= JFactory::getUser();
+		$user	= Factory::getUser();
 
-		ToolBarHelper::title(JText::sprintf('COM_SHCONFIG_SETTINGS_MANAGER', ucfirst($lName)), '');
+		ToolBarHelper::title(Text::sprintf('COM_SHCONFIG_SETTINGS_MANAGER', ucfirst($lName)), '');
 
-		if (JFactory::getUser()->authorise('core.admin', 'com_shconfig'))
+		if (Factory::getUser()->authorise('core.admin', 'com_shconfig'))
 		{
 			ToolBarHelper::apply('settings.apply');
 			ToolBarHelper::divider();

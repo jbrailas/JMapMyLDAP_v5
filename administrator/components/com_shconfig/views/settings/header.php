@@ -1,37 +1,23 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shconfig
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		Giannis Brailas 2025
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-//JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.formvalidator');
+use Joomla\CMS\HTML\HTMLHelper;
 
-$version = new JVersion;
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('bootstrap.tooltip');
 
-if ($version->isCompatible('3.0.0'))
-{
-	JHtml::_('formbehavior.chosen', 'select');
-	JHtml::_('bootstrap.tooltip');
-}
-elseif ($version->isCompatible('4.0.0'))
-{
-	JHtml::_('formbehavior.chosen', 'select');
-	JHtml::_('bootstrap.tooltip');
-}
-else
-{
-	JHtml::_('behavior.tooltip');
-	JHtml::_('behavior.framework', true);
-}
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)

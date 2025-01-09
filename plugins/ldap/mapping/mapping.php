@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
+//use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 /**
@@ -432,8 +434,13 @@ class PlgLdapMapping extends CMSPlugin
 		try
 		{
 			// Gather the user adapter
-			if (is_array($instance))
-				$username = $instance['username'];
+			//if (gettype($instance) != 'object')
+			if (is_array($instance)) {
+				$username = $instance["username"];
+				$instance_id = intval(UserHelper::getUserId($username));
+				$instance = Factory::getUser($instance_id);
+				///$instance = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($instance_id);
+			}
 			else
 				$username = $instance->username;
 			

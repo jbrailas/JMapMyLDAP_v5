@@ -1,11 +1,11 @@
 <?php
 /**
- * PHP Version 8.1
+ * PHP Version 8.2
  *
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Profile
  * @author      Shaun Maunder <shaun@shmanic.com>
- * @edited		2024 Giannis Brailas
+ * @edited		2025 Giannis Brailas
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -165,7 +165,7 @@ class PlgLdapProfile extends CMSPlugin
 
 		// Split and trim the permitted forms
 		$this->permittedForms = explode(';', $this->params->get('permitted_forms'));
-		array_walk($this->permittedForms, 'self::_trimValue');
+		array_walk($this->permittedForms, self::class . '::_trimValue');
 	}
 
 	/**
