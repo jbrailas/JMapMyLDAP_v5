@@ -5,7 +5,7 @@
  * @package     Shmanic.Plugin
  * @subpackage  Ldap.Mapping
  * @author      Shaun Maunder <shaun@shmanic.com>
- * @edited		2024
+ * @edited		Giannis Brailas 2025
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -432,7 +432,11 @@ class PlgLdapMapping extends CMSPlugin
 		try
 		{
 			// Gather the user adapter
-			$username = $instance->username;
+			if (is_array($instance))
+				$username = $instance['username'];
+			else
+				$username = $instance->username;
+			
 			//error_log("ldapmappingusername is " . $username);
 			$adapter = SHFactory::getUserAdapter($username);
 

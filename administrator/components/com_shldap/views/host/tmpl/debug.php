@@ -1,11 +1,11 @@
 <?php
 /**
- * PHP Version 5.3
+ * PHP Version 8.1
  *
  * @package     Shmanic.Components
  * @subpackage  Shldap
  * @author      Shaun Maunder <shaun@shmanic.com>
- *
+ * @edited		Giannis Brailas 2025
  * @copyright   Copyright (C) 2011-2013 Shaun Maunder. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,17 +16,17 @@ $errorStyle = 'background-color:#FBB;display:block;padding:4px 0;font-weight:bol
 
 echo ' :: PHP LDAP Debug ' . SHLDAP_VERSION . ' Script Started :: <br /><br />';
 $this->debug = ($_POST['jform']); //NEW NEW
-//print_r($this->debug);
 try
 {
-	//if (!$this->debug['username'] || !$this->debug['password'])
 	//if (!$_POST['debug_username'][0] || !$_POST['debug_password'][0])
-	if (!$this->debug['debug_username'] || !$this->debug['debug_password'])
-	{
+	if (!$this->debug['debug_username'] || !$this->debug['debug_password']) {
+		//throw new Exception('Debug username or password is missing:' . print_r($this->debug, true));
 		throw new Exception('Debug username or password is missing.');
 	}
-
-	$client = $this->get('LdapObject');
+	
+	//$client = $this->get('LdapObject');
+	$config = $this->debug;
+	$client = new SHLdap($config);
 
 	if ($this->debug['debug_full'])
 	{
