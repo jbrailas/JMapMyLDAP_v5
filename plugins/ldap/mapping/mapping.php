@@ -19,6 +19,8 @@ use Joomla\CMS\User\UserHelper;
 //use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Factory;
+
 /**
  * LDAP Group Mapping Plugin
  *
