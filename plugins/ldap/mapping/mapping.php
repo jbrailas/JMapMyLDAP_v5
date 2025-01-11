@@ -438,12 +438,14 @@ class PlgLdapMapping extends CMSPlugin
 			// Gather the user adapter
 			//if (gettype($instance) != 'object')
 			if (is_array($instance)) {
-				$username = $instance["username"];
-				$instance_id = intval(UserHelper::getUserId($username));
-				$instance = Factory::getUser($instance_id);
+				$tmp_obj = (object)$instance;
+				$instance = $tmp_obj;
+				//$username = $instance["username"];
+				//$instance_id = intval(UserHelper::getUserId($username));
+				//$instance = Factory::getUser($instance_id);
 				///$instance = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($instance_id);
 			}
-			else
+			//else
 				$username = $instance->username;
 			
 			//error_log("ldapmappingusername is " . $username);
